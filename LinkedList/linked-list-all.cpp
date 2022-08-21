@@ -1,11 +1,3 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
 
 using namespace std;
@@ -31,6 +23,22 @@ void create(Node*& head, int a[], int n){
     }
 }
 
+void removeDuplicates(Node*& head){
+    Node* p = head;
+    Node* q = head->next;
+    
+    while(q!=NULL){
+        if(p->data!=q->data){
+            p=q;
+            q=q->next;
+        }
+        else{
+            p->next = q->next;
+            delete q;
+            q = p->next;
+        }
+    }
+}
 void display(Node* head){
     Node* p = head;
     while(p!=NULL){
@@ -44,11 +52,13 @@ int main()
 {
     cout<<"Linked list tutorial"<<endl;
     
-    int a[]={2,10,19,7,18,16};
+    int a[]={1,2,3,3,4,4,5};
     int n = sizeof(a)/sizeof(a[0]);
     
     Node* head = new Node();
     create(head,a,n);
+    display(head);
+    removeDuplicates(head);
     display(head);
     
     return 0;
