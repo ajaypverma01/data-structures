@@ -1,3 +1,11 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
 #include <iostream>
 #include<cstring>
 
@@ -6,16 +14,16 @@ class Stack{
     public:
     int top;
     int size;
-    char* S;
+    int* S;
     Stack(int n){
         top = -1;
         size = n;
-        S = new char[size];
+        S = new int[size];
     }
 };
 
 
-void push(Stack* st, char x){
+void push(Stack* st, int x){
     if(st->top==st->size-1){
         cout<<"stack overflow"<<endl;
     }
@@ -25,7 +33,7 @@ void push(Stack* st, char x){
     }
 }
 
-char pop(Stack* st){
+int pop(Stack* st){
     char x = -1;
     if(st->top==-1){
         cout<<"stack is underflow"<<endl;
@@ -47,8 +55,8 @@ int isFull(Stack st){
     else return 0;
 }
 
-char stackTop(Stack st){
-    char x=-1;
+int stackTop(Stack st){
+    int x=-1;
     if(st.top==-1){
         return -1;
     }
@@ -95,18 +103,44 @@ char* postFix(Stack* st, char* infix){
     return pfix;
 }
 
+int evalPostFix(Stack* st,char* infix){
+    int i,x1,x2,r;
+    for (i = 0; infix[i]!='\0'; i++) {
+        
+        if(isOperand(infix[i])){
+            push(st,infix[i]-'0');
+        }
+        else{
+            x2 = pop(st);
+            x1 = pop(st);
+            
+            switch(infix[i]){
+                case '+': r = x2+x1; push(st,r); break;
+                case '-': r = x2-x1; push(st,r); break;
+                case '*': r = x2*x1; push(st,r); break;
+                case '/': r = x2/x1; push(st,r); break;
+            }
+        }
+        /* code */
+    }
+    
+    return pop(st);
+}
 
 int main()
 {
     cout<<"Hello World"<<endl;
     
-    char infix[] = "a+b*c-d/e";
-        
+    //char infix[] = "a+b*c-d/e";
+    
+    char infix[] = "6+5+3*4";
+    
+    
     Stack st(strlen(infix));
     
     cout<<st.size<<endl;
     
     cout<<postFix(&st,infix)<<endl;
-    
+    cout<<evalPostFix(&st,postFix(&st,infix))<<endl;
     return 0;
 }
